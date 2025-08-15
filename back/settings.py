@@ -171,6 +171,9 @@ MEDIA_ROOT=BASE_DIR / "media"
 AUTH_USER_MODEL='service.Utilisateur'
 STATIC_ROOT = BASE_DIR/'staticfiles'
 STATIC_URL = '/static/'
+CSRF_TRUSTED_ORIGINS = [
+    "https://handsome-kindness-production.up.railway.app"
+]
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
