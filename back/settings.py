@@ -117,7 +117,14 @@ WSGI_APPLICATION = 'back.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": dj_database_url.parse("postgresql://postgres:xroTHWXykoJtSJjobmUCdYqQqJebvknM@postgres.railway.internal:5432/railway")
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "railway",  # nom de ta base
+        "USER": "postgres",  # ton username
+        "PASSWORD": "xroTHWXykoJtSJjobmUCdYqQqJebvknM",  # ton mot de passe
+        "HOST": "postgres.railway.internal",  # host interne Railway
+        "PORT": "5432",
+    }
 }
 
 
