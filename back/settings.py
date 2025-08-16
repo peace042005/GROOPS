@@ -117,7 +117,9 @@ WSGI_APPLICATION = 'back.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": dj_database_url.config(default="postgresql://postgres:xroTHWXykoJtSJjobmUCdYqQqJebvknM@postgres.railway.internal:5432/railway")
+    "default": dj_database_url.config(default='postgresql://neondb_owner:npg_fmN81eVDJGLh@ep-fancy-art-aff037hv-pooler.c-2.us-west-2.aws.neon.tech/neondb?sslmode=require',
+    conn_max_age=600, 
+    ssl_require=True )
 }
 
 
