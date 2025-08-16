@@ -16,6 +16,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 from datetime import timedelta
 import dj_database_url
 import os
+
+ENVIRONMENT = os.getenv("DJANGO_ENV", "production")
+DEBUG = False
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -23,9 +26,8 @@ import os
 SECRET_KEY = 'django-insecure-ihy8irkn_1&o#7z0gqia-0ivh=qn#_f38s(!%f$k$++uxclsb4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','192.168.1.87','192.168.100.104','handsome-kindness-production.up.railway.app']
+ALLOWED_HOSTS = ['handsome-kindness-production.up.railway.app']
 
 
 # Application definition
