@@ -22,7 +22,7 @@ from django.contrib.auth import get_user_model
 User=get_user_model()
 
 class AuthenticationView(TokenObtainPairView):
-    authentication_classes=AuthenticationSerializer
+    serializer_class=AuthenticationSerializer
 
 class CategorieListView(generics.ListAPIView):
     queryset = Categorie.objects.all()

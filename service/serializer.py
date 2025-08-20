@@ -180,8 +180,10 @@ class NotificationSerializer(serializers.ModelSerializer):
     
 
 class AuthenticationSerializer(TokenObtainPairSerializer):
+    token = serializers.CharField(required=False, allow_blank=True)
     def validate(self, attrs):
         token=attrs.pop('token',None)
+        print(token)
         data= super().validate(attrs)
         user=self.user
         if token :

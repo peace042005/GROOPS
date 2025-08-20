@@ -19,7 +19,7 @@ from django.urls import path,include
 
 from . import settings
 from django.conf.urls.static import static
-from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView,TokenVerifyView
+from rest_framework_simplejwt.views import TokenRefreshView,TokenVerifyView
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 urlpatterns = [
