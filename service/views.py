@@ -1,8 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework import generics, permissions, status,viewsets
+from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .models import Group, GroupClick, GroupScroll, GroupFeedback,Categorie,Pays
+from .models import Group, GroupClick, GroupScroll, GroupFeedback,Categorie,Pays,Notification,Device
 import random
 from django.core.cache import cache
 from django.core.mail import send_mail
@@ -13,11 +14,15 @@ from .serializer import (
     GroupFeedbackSerializer,
     UtilisateurSerializer,
     CategorieSerializer,
-    PaysSerializer
+    PaysSerializer,
+    NotificationSerializer,
+    AuthenticationSerializer
 )
 from django.contrib.auth import get_user_model
 User=get_user_model()
 
+class AuthenticationView(TokenObtainPairView):
+    authentication_classes=AuthenticationSerializer
 
 class CategorieListView(generics.ListAPIView):
     queryset = Categorie.objects.all()
@@ -232,3 +237,32 @@ class ProfileState(APIView):
             },
             status=status.HTTP_200_OK
         )
+
+
+class NotificationViewSet(viewsets.ModelViewSet):
+    serializer_class = NotificationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Retourne seulement les notifications de l'utilisateur connecté, triées par date décroissante
+        return Notification.objects.filter(destinataire=self.request.user).order_by('-created_at')
+
+    def partial_update(self, request, *args, **kwargs):
+        """
+        Permet de marquer une notification comme lue via PATCH.
+        Exemple payload : {"lue": true}
+        """
+        return super().partial_update(request, *args, **kwargs)
+    
+class Logout(APIView):
+    def post(self,request):
+        token=request.data.get('token',None)
+        user=self.request.user
+        if not (token and user):
+            return Response({"message":"requete mal envoyer"},status=status.HTTP_400_BAD_REQUEST)
+        device=Device.objects.filter(user=user,token=token,is_active=True).first()
+        if device:
+            device.is_active=False
+            device.save()
+            
+        return Response({"message":"vous etes déconnecter"})

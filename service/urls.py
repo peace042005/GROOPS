@@ -15,7 +15,10 @@ from .views import (
     PaysListView,
     AllGroupViewSet,
     ProfileState,
-    ModifyUserView
+    ModifyUserView,
+    NotificationViewSet,
+    Logout,
+    AuthenticationView
 )
 from rest_framework.routers import DefaultRouter
 
@@ -25,7 +28,8 @@ router.register(r'feedbacks', GroupFeedbackViewSet)
 router.register(r'scrolls', GroupScrollViewSet)
 router.register(r'utilisateurs', UtilisateurViewSet,basename='user'),
 router.register(r'utilisateurmodif',ModifyUserView,basename='usermodif' ),
-router.register(r'allgroupes', AllGroupViewSet,basename='allgroup')
+router.register(r'allgroupes', AllGroupViewSet,basename='allgroup'),
+router.register(r'notifications', NotificationViewSet, basename='notification')
 
 urlpatterns = [
     path("groups/<int:group_id>/click/", GroupClickCreateView.as_view(), name="group-click"),
@@ -38,5 +42,7 @@ urlpatterns = [
     path('categorie/', CategorieListView.as_view()),
     path('profilestate/', ProfileState.as_view()),
     path('pays/', PaysListView.as_view()),
-     path('', include(router.urls)),
+    path('tokenObtain/', AuthenticationView.as_view()),
+    path('logout/', Logout.as_view()),
+    path('', include(router.urls)),
 ]

@@ -26,7 +26,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
      path('tokenverify/',TokenVerifyView.as_view(),name='verify'),
     path('tokenredresh/',TokenRefreshView.as_view(),name='refresh'),   
-    path('tokenObtain/',TokenObtainPairView.as_view(),name='obtain'),   
     
     # API DOCUMENTATION
     path('schema/', SpectacularAPIView.as_view(), name='schema'),

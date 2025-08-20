@@ -87,3 +87,24 @@ class GroupFeedback(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+
+class Notification(models.Model):
+    destinataire = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    groupe = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='notifications')
+    message = models.CharField(max_length=255)
+    lue = models.BooleanField(default=False)  # True si la notification a été vue
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Notification pour {self.destinataire.email} - {self.message}"
+    
+    
+class Device(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="devices")
+    token = models.CharField(max_length=255, unique=True)  # FCM ou APNs token
+    is_active = models.BooleanField(default=True)  # si l’appareil est encore actif
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.device_type}"
