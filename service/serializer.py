@@ -23,6 +23,7 @@ def envoyer_notification_expo(push_token, title, body, data=None):
         json=message,
         headers={"Content-Type": "application/json"}
     )
+    print("Expo push response:", response.json()) 
     return response.json()
 
 
@@ -128,7 +129,7 @@ class GroupSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         group = Group.objects.create(createur=user, **validated_data)
 
-        # Créer la notification
+        # Créer la notification pour tous les utilisateurs
         utilisateurs = User.objects.all()
         notifications = [
             Notification(
@@ -140,15 +141,19 @@ class GroupSerializer(serializers.ModelSerializer):
         ]
         Notification.objects.bulk_create(notifications)
 
+        # Envoyer la notification push à tous les appareils actifs des utilisateurs
         for u in utilisateurs:
-            if u.expo_push_token:
+            devices = u.devices.filter(is_active=True)  # lié à related_name="devices"
+            for device in devices:
                 envoyer_notification_expo(
-                    u.expo_push_token,
+                    device.token,
                     title="Nouveau groupe 🎉",
                     body=f"{group.name} vient d’être créé !",
                     data={"groupe_id": group.id}
                 )
+
         return group
+
     
     
 class NotificationSerializer(serializers.ModelSerializer):
@@ -183,8 +188,8 @@ class AuthenticationSerializer(TokenObtainPairSerializer):
     token = serializers.CharField(required=False, allow_blank=True)
     def validate(self, attrs):
         token=attrs.pop('token',None)
-        print(token)
         data= super().validate(attrs)
+        print(data)
         user=self.user
         if token :
             Device.objects.update_or_create(

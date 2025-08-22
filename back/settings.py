@@ -21,7 +21,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 ENVIRONMENT = os.getenv("DJANGO_ENV", "production")
-DEBUG = False
+DEBUG = True
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-ihy8irkn_1&o#7z0gqia-0ivh=qn#_f38s(!%f$k$++uxclsb4
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = ['handsome-kindness-production.up.railway.app']
+ALLOWED_HOSTS = ['handsome-kindness-production.up.railway.app','192.168.1.87']
 
 
 # Application definition

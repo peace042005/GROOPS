@@ -135,13 +135,20 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all().order_by('-created_at')
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-    def perform_create(self, serializer):
-        serializer.save(createur=self.request.user)
         
     def get_queryset(self):
         user=self.request.user
         return Group.objects.filter(createur=user)
+    
+    def perform_create(self, serializer):
+        try:
+            serializer.save()
+        except Exception as e:
+            # Affiche dans la console Django
+            print("❌ Erreur lors de la création du groupe :", str(e))
+            # Ou via logging
+            # Et on relance pour que DRF affiche aussi l'erreur dans la réponse
+            raise
         
 class AllGroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all().order_by('-created_at')
@@ -210,7 +217,7 @@ class MyGroupsStatsView(APIView):
     def get(self, request):
         user = request.user
 
-        groups = Group.objects.filter(createur=user)
+        groups = Group.objects.filter(createur=user).order_by('-created_at')
         data = GroupSerializer(groups, many=True).data
 
         return Response(data, status=status.HTTP_200_OK)
