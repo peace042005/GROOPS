@@ -3,6 +3,7 @@ from rest_framework import generics, permissions, status,viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from .utils import send_mailtrap_email
 from .models import Group, GroupClick, GroupScroll, GroupFeedback,Categorie,Pays,Notification,Device
 import random
 from django.core.cache import cache
@@ -73,15 +74,14 @@ class ForgotPasswordView(APIView):
         code = str(random.randint(100000, 999999))
         cache.set(f"reset_code:{email}", code, timeout=600)  # 600s = 10 minutes
 
-        send_mail(
-            "Code de réinitialisation de mot de passe",
-            f"Voici votre code : {code}",
-            "tonapp@example.com",
-            [email],
-            fail_silently=False,
+        response = send_mailtrap_email(
+            to_email=email,
+            subject="Réinitialisation de mot de passe",
+            text_content="Cliquez sur ce lien pour réinitialiser votre mot de passe : https://monapp.com/reset/123"
         )
 
-        return Response({"detail": "Code envoyé par email."}, status=status.HTTP_200_OK)
+        return Response({"message": "Email envoyé avec succès", "mailtrap_response": response})
+
 
 
 from django.contrib.auth.hashers import make_password

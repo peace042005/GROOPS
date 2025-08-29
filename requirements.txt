@@ -12,3 +12,4 @@ dj-database-url
 python-decouple
 python-dotenv
 requests
+mailtrap
