@@ -44,11 +44,6 @@ class Platform(models.Model):
         return self.nom
 
 class Group(models.Model):
-    PLATFORMS = [
-        ('whatsapp', 'WhatsApp'),
-        ('telegram', 'Telegram'),
-        ('facebook', 'Facebook'),
-    ]
 
     createur = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=80)
@@ -56,7 +51,7 @@ class Group(models.Model):
     link = models.URLField(unique=True)
     categorie = models.ForeignKey(Categorie, on_delete=models.SET_NULL, null=True)
     pays = models.ForeignKey(Pays, on_delete=models.SET_NULL, null=True)
-    platform = models.CharField(max_length=20, choices=PLATFORMS)
+    platform = models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

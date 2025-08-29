@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-from .models import Categorie,Pays
+from .models import Categorie,Pays,Platform
 User=get_user_model()
 # Register your models here.
 admin.site.register(User)
 admin.site.register(Categorie)
 admin.site.register(Pays)
+admin.site.register(Platform)
