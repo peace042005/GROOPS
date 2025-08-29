@@ -3,7 +3,7 @@ from rest_framework import generics, permissions, status,viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .models import Group, GroupClick, GroupScroll, GroupFeedback,Categorie,Pays,Notification,Device
+from .models import Group, GroupClick, GroupScroll, GroupFeedback,Categorie,Pays,Notification,Device,Platform
 import random
 import resend
 from django.core.cache import cache
@@ -17,7 +17,8 @@ from .serializer import (
     CategorieSerializer,
     PaysSerializer,
     NotificationSerializer,
-    AuthenticationSerializer
+    AuthenticationSerializer,
+    PlatformSerializer
 )
 from django.contrib.auth import get_user_model
 User=get_user_model()
@@ -32,6 +33,10 @@ class CategorieListView(generics.ListAPIView):
 class PaysListView(generics.ListAPIView):
     queryset = Pays.objects.all()
     serializer_class = PaysSerializer
+    
+class PlatformListView(generics.ListAPIView):
+    queryset = Platform.objects.all()
+    serializer_class = PlatformSerializer
     
 class RegisterUserView(generics.CreateAPIView):
     queryset=User.objects.all()

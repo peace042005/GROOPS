@@ -37,6 +37,11 @@ class Pays(models.Model):
     def __str__(self):
         return self.nom
 
+class Platform(models.Model):
+    nom = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.nom
 
 class Group(models.Model):
     PLATFORMS = [

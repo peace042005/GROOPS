@@ -18,7 +18,8 @@ from .views import (
     ModifyUserView,
     NotificationViewSet,
     Logout,
-    AuthenticationView
+    AuthenticationView,
+    PlatformListView
 )
 from rest_framework.routers import DefaultRouter
 
@@ -42,6 +43,7 @@ urlpatterns = [
     path('categorie/', CategorieListView.as_view()),
     path('profilestate/', ProfileState.as_view()),
     path('pays/', PaysListView.as_view()),
+    path('platform/', PlatformListView.as_view()),
     path('tokenObtain/', AuthenticationView.as_view()),
     path('logout/', Logout.as_view()),
     path('', include(router.urls)),

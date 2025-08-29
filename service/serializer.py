@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .models import Group, GroupClick,GroupFeedback,GroupScroll,Categorie,Pays,Notification,Device
+from .models import Group, GroupClick,GroupFeedback,GroupScroll,Categorie,Pays,Notification,Device,Platform
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 import requests
@@ -69,6 +69,11 @@ class CategorieSerializer(serializers.ModelSerializer):
 class PaysSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pays
+        fields = ['id', 'nom']
+        
+class PlatformSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Platform
         fields = ['id', 'nom']
 
 # ✅ GroupClickSerializer
