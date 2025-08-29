@@ -101,7 +101,7 @@ class Notification(models.Model):
     
 class Device(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="devices")
-    token = models.CharField(max_length=255, unique=True)  # FCM ou APNs token
+    token = models.CharField(max_length=255, unique=False)  # FCM ou APNs token
     is_active = models.BooleanField(default=True)  # si l’appareil est encore actif
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
