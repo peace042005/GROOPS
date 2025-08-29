@@ -46,7 +46,7 @@ class Group(models.Model):
     ]
 
     createur = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=80)
     description = models.TextField(blank=True, null=True)
     link = models.URLField(unique=True)
     categorie = models.ForeignKey(Categorie, on_delete=models.SET_NULL, null=True)
