@@ -181,10 +181,18 @@ CSRF_TRUSTED_ORIGINS = [
     "https://handsome-kindness-production.up.railway.app"
 ]
 
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'isidortoy@gmail.com'
+# EMAIL_HOST_PASSWORD = 'yizr gnat kaih jddk'
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = 'c9e1e5d0959271'
+EMAIL_HOST_PASSWORD = 'bcecb679381073'
+EMAIL_PORT = 2525
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'isidortoy@gmail.com'
-EMAIL_HOST_PASSWORD = 'yizr gnat kaih jddk'
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = 'no-reply@monapp.com'

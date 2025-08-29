@@ -74,14 +74,15 @@ class ForgotPasswordView(APIView):
         code = str(random.randint(100000, 999999))
         cache.set(f"reset_code:{email}", code, timeout=600)  # 600s = 10 minutes
 
-        response = send_mailtrap_email(
-            to_email=email,
-            subject="Réinitialisation de mot de passe",
-            text_content="Cliquez sur ce lien pour réinitialiser votre mot de passe : https://monapp.com/reset/123"
-        )
+        send_mail(
+        'Test Mail',
+        'Ceci est un test.',
+        'no-reply@monapp.com',
+        ['ton_email@exemple.com'],
+        fail_silently=False,
+            )
 
-        return Response({"message": "Email envoyé avec succès", "mailtrap_response": response})
-
+        return Response({"detail": "Code envoyé par email."}, status=status.HTTP_200_OK)
 
 
 from django.contrib.auth.hashers import make_password
