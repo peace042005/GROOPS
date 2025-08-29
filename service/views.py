@@ -75,10 +75,10 @@ class ForgotPasswordView(APIView):
         cache.set(f"reset_code:{email}", code, timeout=600)  # 600s = 10 minutes
 
         send_mail(
-        'Test Mail',
-        'Ceci est un test.',
-        'no-reply@monapp.com',
-        ['ton_email@exemple.com'],
+        'reset password',
+        code,
+        'isidortoy@gmail.com',
+        [email],
         fail_silently=False,
             )
 
