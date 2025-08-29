@@ -71,15 +71,23 @@ class ForgotPasswordView(APIView):
         except User.DoesNotExist:
             return Response({"detail": "Aucun utilisateur avec cet email."}, status=status.HTTP_404_NOT_FOUND)
 
+        # Génération du code de réinitialisation
         code = str(random.randint(100000, 999999))
-        cache.set(f"reset_code:{email}", code, timeout=600)  # 600s = 10 minutes
+        cache.set(f"reset_code:{email}", code, timeout=600)  # 10 minutes
 
-        send_mail(
-        'reset password',
-        code,
-        'isidortoy@gmail.com',
-        [email],
-        fail_silently=False,
+        # Envoi du mail via Mailtrap SMTP
+        try:
+            send_mail(
+                subject='Réinitialisation de mot de passe',
+                message=f"Votre code de réinitialisation est : {code}",
+                from_email='no-reply@monapp.com',  # Doit correspondre à DEFAULT_FROM_EMAIL
+                recipient_list=[email],
+                fail_silently=False,
+            )
+        except Exception as e:
+            return Response(
+                {"detail": f"Impossible d'envoyer l'email: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
         return Response({"detail": "Code envoyé par email."}, status=status.HTTP_200_OK)
