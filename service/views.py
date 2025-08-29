@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from .utils import send_mailtrap_email
 from .models import Group, GroupClick, GroupScroll, GroupFeedback,Categorie,Pays,Notification,Device
 import random
+import resend
 from django.core.cache import cache
 from django.core.mail import send_mail
 from .serializer import (
@@ -60,6 +61,8 @@ class GetUserConnect(APIView):
         serializer = UtilisateurSerializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+resend.api_key = "re_cmNY5Mok_QoV2oKPFApm6ghZGUhQypnC9"
+
 class ForgotPasswordView(APIView):
     def post(self, request):
         email = request.data.get('email')
@@ -71,19 +74,18 @@ class ForgotPasswordView(APIView):
         except User.DoesNotExist:
             return Response({"detail": "Aucun utilisateur avec cet email."}, status=status.HTTP_404_NOT_FOUND)
 
-        # Génération du code de réinitialisation
+        # Génération du code
         code = str(random.randint(100000, 999999))
         cache.set(f"reset_code:{email}", code, timeout=600)  # 10 minutes
 
-        # Envoi du mail via Mailtrap SMTP
+        # Envoi email via Resend
         try:
-            send_mail(
-                subject='Réinitialisation de mot de passe',
-                message=f"Votre code de réinitialisation est : {code}",
-                from_email='no-reply@monapp.com',  # Doit correspondre à DEFAULT_FROM_EMAIL
-                recipient_list=[email],
-                fail_silently=False,
-            )
+            resend.Emails.send({
+                "from": "onboarding@resend.dev",
+                "to": email,
+                "subject": "Réinitialisation de mot de passe",
+                "html": f"<p>Votre code de réinitialisation est : <strong>{code}</strong></p>"
+            })
         except Exception as e:
             return Response(
                 {"detail": f"Impossible d'envoyer l'email: {str(e)}"},
