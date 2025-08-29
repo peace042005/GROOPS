@@ -3,7 +3,6 @@ from rest_framework import generics, permissions, status,viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .utils import send_mailtrap_email
 from .models import Group, GroupClick, GroupScroll, GroupFeedback,Categorie,Pays,Notification,Device
 import random
 import resend
