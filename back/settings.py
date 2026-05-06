@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-ihy8irkn_1&o#7z0gqia-0ivh=qn#_f38s(!%f$k$++uxclsb4
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = ['handsome-kindness-production.up.railway.app','192.168.1.87']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
